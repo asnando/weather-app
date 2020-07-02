@@ -25,7 +25,6 @@ const HomeScreen = () => {
   const [isLoading, setLoadingStatus] = useState(true);
   const [weather, setWeather] = useState({});
 
-  console.warn(lastUserGeolocation);
 
   useEffect(() => {
     const {latitude, longitude} = lastUserGeolocation;

@@ -2,8 +2,8 @@ import {SAVE_USER_COORDS_ACTION_TYPE} from './actions';
 
 const INITIAL_STATE = {
   lastUserGeolocation: {
-    latitude: 0,
-    longitude: 0,
+    latitude: null,
+    longitude: null,
   },
 };
 
