@@ -17,6 +17,8 @@ export const CentralizedContent = styled.View`
   align-items: center;
   justify-content: center;
   padding-bottom: 32;
+  margin-left: 24;
+  margin-right: 24;
 `;
 
 export const HeaderTitleText = styled.Text`
@@ -36,8 +38,8 @@ export const DescriptionText = styled.Text`
 `;
 
 export const WeatherIconContainer = styled.View`
-  width: 128;
   height: 128;
+  width: 128;
 `;
 
 export const WeatherIconImage = styled.Image`
