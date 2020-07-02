@@ -7,7 +7,7 @@ import {
   PermissionButtonText,
 } from './Introduction.styles';
 import {CentralizedContentScreen} from '../components/Screen';
-import {saveUserCoords} from '../state/Actions';
+import {saveUserCoords} from '../state/actions';
 
 const IntroductionScreen = ({navigation}) => {
   const dispatch = useDispatch();

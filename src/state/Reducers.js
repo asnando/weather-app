@@ -1,4 +1,4 @@
-import {SAVE_USER_COORDS_ACTION_TYPE} from './Actions';
+import {SAVE_USER_COORDS_ACTION_TYPE} from './actions';
 
 const INITIAL_STATE = {
   lastUserGeolocation: {
