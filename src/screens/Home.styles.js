@@ -1,9 +1,12 @@
 import styled from 'styled-components/native';
 import {lighten} from 'polished';
 
-export const ActivityIndicator = styled.ActivityIndicator`
-  width: 24;
-  height: 24;
+export const ActivityIndicator = styled.ActivityIndicator``;
+
+export const PlaceholderText = styled.Text`
+  font-size: 16;
+  margin-top: 16;
+  margin-bottom: 16;
 `;
 
 export const ContentContainer = styled.ScrollView`

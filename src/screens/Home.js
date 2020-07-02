@@ -3,6 +3,7 @@ import {View} from 'react-native';
 import {Screen} from '../components/Screen';
 import {
   ActivityIndicator,
+  PlaceholderText,
   CentralizedContent,
   ContentContainer,
   HeaderTitleText,
@@ -33,48 +34,59 @@ const HomeScreen = () => {
       .catch(console.error);
   }, []);
 
+  const renderInfo = (children, width = 100, height = 20) =>
+    isLoading ? <PlaceholderText>-</PlaceholderText> : children;
+
   return (
     <Screen>
-      {isLoading ? (
-        <ActivityIndicator />
-      ) : (
-        <>
-          <ContentContainer>
-            <CentralizedContent>
+      <>
+        <ContentContainer>
+          <CentralizedContent>
+            {renderInfo(
               <HeaderTitleText>{weather.dateAsString}</HeaderTitleText>
+            )}
+            {renderInfo(
               <DescriptionText>{weather.description}</DescriptionText>
-              <Section>
-                <View>
-                  <BigTitleText>{weather.city}</BigTitleText>
-                  <BigTitleText>{weather.temperature}</BigTitleText>
-                </View>
-                <WeatherIconContainer>
-                  <WeatherIconImage source={{uri: weather.icon}} />
-                </WeatherIconContainer>
-              </Section>
-              <Section>
-                <SectionItem>
-                  <SectionItemTitle>Min</SectionItemTitle>
+            )}
+            <Section>
+              <View>
+                {renderInfo(<BigTitleText>{weather.city}</BigTitleText>)}
+                {renderInfo(<BigTitleText>{weather.temperature}</BigTitleText>)}
+              </View>
+              <WeatherIconContainer>
+                {renderInfo(<WeatherIconImage source={{uri: weather.icon}} />)}
+              </WeatherIconContainer>
+            </Section>
+            <Section>
+              <SectionItem>
+                <SectionItemTitle>Min</SectionItemTitle>
+                {renderInfo(
                   <SectionItemValue>{weather.minTemperature}</SectionItemValue>
-                </SectionItem>
-                <SectionItem>
-                  <SectionItemTitle>Max</SectionItemTitle>
+                )}
+              </SectionItem>
+              <SectionItem>
+                <SectionItemTitle>Max</SectionItemTitle>
+                {renderInfo(
                   <SectionItemValue>{weather.maxTemperature}</SectionItemValue>
-                </SectionItem>
-                <SectionItem>
-                  <SectionItemTitle>Umidade</SectionItemTitle>
+                )}
+              </SectionItem>
+              <SectionItem>
+                <SectionItemTitle>Umidade</SectionItemTitle>
+                {renderInfo(
                   <SectionItemValue>{weather.humidity}</SectionItemValue>
-                </SectionItem>
-                <SectionItem>
-                  <SectionItemTitle>Vento</SectionItemTitle>
+                )}
+              </SectionItem>
+              <SectionItem>
+                <SectionItemTitle>Vento</SectionItemTitle>
+                {renderInfo(
                   <SectionItemValue>{weather.windSpeed}</SectionItemValue>
-                </SectionItem>
-              </Section>
-            </CentralizedContent>
-          </ContentContainer>
-          <BottomCard />
-        </>
-      )}
+                )}
+              </SectionItem>
+            </Section>
+          </CentralizedContent>
+        </ContentContainer>
+        <BottomCard />
+      </>
     </Screen>
   );
 };
