@@ -6,7 +6,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {PersistGate} from 'redux-persist/integration/react';
 import HomeScreen from './screens/Home';
-import IntroductionScreen from './screens/Introduction';
+import WelcomeScreen from './screens/Welcome';
 import {store, persistor} from './state/store';
 
 const Stack = createStackNavigator();
@@ -20,7 +20,7 @@ const App = () => {
           <Stack.Navigator
             headerMode="none"
             screenOptions={{gestureEnabled: false}}>
-            <Stack.Screen name="Introduction" component={IntroductionScreen} />
+            <Stack.Screen name="Welcome" component={WelcomeScreen} />
             <Stack.Screen name="Home" component={HomeScreen} />
           </Stack.Navigator>
         </NavigationContainer>

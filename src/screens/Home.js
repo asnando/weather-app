@@ -88,7 +88,7 @@ const HomeScreen = () => {
             </Section>
           </CentralizedContent>
         </ContentContainer>
-        <BottomCard />
+        {/* <BottomCard /> */}
       </>
     </Screen>
   );
