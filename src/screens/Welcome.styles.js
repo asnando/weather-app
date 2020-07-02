@@ -17,8 +17,3 @@ export const PermissionButtonText = styled.Text`
   color: blue;
   font-size: 18;
 `;
-
-export const NextPageButtonText = styled.Text`
-  color: blue;
-  font-size: 18;
-`;

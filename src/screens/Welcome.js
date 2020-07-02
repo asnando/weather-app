@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useContext} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import Geolocation from '@react-native-community/geolocation';
 import {
@@ -14,8 +14,10 @@ import {
   USER_LOCATION_PERMISSION_DENIED,
   USER_LOCATION_PERMISSION_GRANT,
 } from '../constants';
+import themeContext from '../theme';
 
 const WelcomeScreen = ({navigation}) => {
+  const {theme} = useContext(themeContext);
   const dispatch = useDispatch();
 
   const userLocationPermissionStatus = useSelector(
@@ -68,24 +70,22 @@ Por favor, habilite o acesso a sua localização nas configurações do aparelho
     }
   };
 
-  const renderWelcomeButton = () => {
+  const renderWelcomeButtonText = () => {
     switch (userLocationPermissionStatus) {
       case USER_LOCATION_PERMISSION_UNKNOWN:
-        return <PermissionButtonText>Permitir acesso</PermissionButtonText>;
+        return 'Permitir acesso';
       case USER_LOCATION_PERMISSION_DENIED:
-        return (
-          <NextPageButtonText>Entendi, tentar novamente</NextPageButtonText>
-        );
+        return 'Entendi, tentar novamente';
       default:
-        return <></>;
+        return '';
     }
   };
 
   return (
     <CentralizedContentScreen>
-      <WelcomeText>{renderWelcomeText()}</WelcomeText>
+      <WelcomeText theme={theme}>{renderWelcomeText()}</WelcomeText>
       <PermissionButton onPress={requestUserGeolocation}>
-        {renderWelcomeButton()}
+        <PermissionButtonText>{renderWelcomeButtonText()}</PermissionButtonText>
       </PermissionButton>
     </CentralizedContentScreen>
   );

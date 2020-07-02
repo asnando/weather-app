@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import {lighten} from 'polished';
+import {lighten, darken} from 'polished';
 
 export const ActivityIndicator = styled.ActivityIndicator``;
 
@@ -24,17 +24,20 @@ export const CentralizedContent = styled.View`
 export const HeaderTitleText = styled.Text`
   font-size: 24;
   margin-top: 16;
+  color: ${({theme: {textColor}}) => textColor};
 `;
 
 export const BigTitleText = styled.Text`
   font-weight: bold;
   font-size: 32;
+  color: ${({theme: {strongTextColor}}) => strongTextColor};
 `;
 
 export const DescriptionText = styled.Text`
   font-size: 24;
   margin-top: 16;
   font-weight: bold;
+  color: ${({theme: {strongTextColor}}) => strongTextColor};
 `;
 
 export const WeatherIconContainer = styled.View`
@@ -62,13 +65,14 @@ export const SectionItem = styled.View`
 export const SectionItemTitle = styled.Text`
   font-size: 18;
   font-weight: bold;
+  color: ${({theme: {strongTextColor}}) => strongTextColor};
 `;
 
 export const SectionItemValue = styled.Text`
   font-size: 16;
+  color: ${({theme: {textColor}}) => textColor};
 `;
 
-// TODO: configurar a cor baseado no tema
 export const BottomCard = styled.View`
   bottom: 0;
   width: 100%;
@@ -77,5 +81,5 @@ export const BottomCard = styled.View`
   border-top-left-radius: 32;
   border-bottom-right-radius: 32;
   border-bottom-left-radius: 32;
-  background-color: ${lighten(0.15, '#fcd433')};
+  background-color: ${({theme: {primaryColor}}) => darken(0.15, primaryColor)};
 `;

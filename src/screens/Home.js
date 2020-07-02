@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {useSelector} from 'react-redux';
 import {View} from 'react-native';
 import {Screen} from '../components/Screen';
@@ -19,12 +19,13 @@ import {
   SectionItemValue,
 } from './Home.styles';
 import {getCurrentWeatherByCoordinates} from '../repository/weather';
+import themeContext from '../theme';
 
 const HomeScreen = () => {
+  const {theme} = useContext(themeContext);
   const lastUserGeolocation = useSelector((state) => state.lastUserGeolocation);
   const [isLoading, setLoadingStatus] = useState(true);
   const [weather, setWeather] = useState({});
-
 
   useEffect(() => {
     const {latitude, longitude} = lastUserGeolocation;
@@ -37,58 +38,65 @@ const HomeScreen = () => {
       .catch(console.error);
   }, []);
 
-  const renderInfo = (children, width = 100, height = 20) =>
-    isLoading ? <PlaceholderText>-</PlaceholderText> : children;
+  const renderComponent = (component) => !isLoading && component;
+
+  const renderInfo = (value) => (isLoading ? '-' : value || '');
 
   return (
     <Screen>
       <>
         <ContentContainer>
           <CentralizedContent>
-            {renderInfo(
-              <HeaderTitleText>{weather.dateAsString}</HeaderTitleText>
-            )}
-            {renderInfo(
-              <DescriptionText>{weather.description}</DescriptionText>
-            )}
+            <HeaderTitleText theme={theme}>
+              {renderInfo(weather.dateAsString)}
+            </HeaderTitleText>
+            <DescriptionText theme={theme}>
+              {renderInfo(weather.description)}
+            </DescriptionText>
             <Section>
               <View style={{flex: 1}}>
-                {renderInfo(<BigTitleText numberOfLines={2}>{weather.city}</BigTitleText>)}
-                {renderInfo(<BigTitleText>{weather.temperature}</BigTitleText>)}
+                <BigTitleText numberOfLines={2} theme={theme}>
+                  {renderInfo(weather.city)}
+                </BigTitleText>
+                <BigTitleText theme={theme}>
+                  {renderInfo(weather.temperature)}
+                </BigTitleText>
               </View>
               <WeatherIconContainer>
-                {renderInfo(<WeatherIconImage source={{uri: weather.icon}} />)}
+                {renderComponent(
+                  <WeatherIconImage source={{uri: weather.icon}} />,
+                )}
               </WeatherIconContainer>
             </Section>
             <Section>
               <SectionItem>
-                <SectionItemTitle>Min</SectionItemTitle>
-                {renderInfo(
-                  <SectionItemValue>{weather.minTemperature}</SectionItemValue>
-                )}
+                <SectionItemTitle theme={theme}>Min</SectionItemTitle>
+                <SectionItemValue theme={theme}>
+                  {renderInfo(weather.minTemperature)}
+                </SectionItemValue>
               </SectionItem>
               <SectionItem>
-                <SectionItemTitle>Max</SectionItemTitle>
-                {renderInfo(
-                  <SectionItemValue>{weather.maxTemperature}</SectionItemValue>
-                )}
+                <SectionItemTitle theme={theme}>Max</SectionItemTitle>
+                <SectionItemValue theme={theme}>
+                  {renderInfo(weather.maxTemperature)}
+                </SectionItemValue>
               </SectionItem>
               <SectionItem>
-                <SectionItemTitle>Umidade</SectionItemTitle>
-                {renderInfo(
-                  <SectionItemValue>{weather.humidity}</SectionItemValue>
-                )}
+                <SectionItemTitle theme={theme}>Umidade</SectionItemTitle>
+                <SectionItemValue theme={theme}>
+                  {renderInfo(weather.humidity)}
+                </SectionItemValue>
               </SectionItem>
               <SectionItem>
-                <SectionItemTitle>Vento</SectionItemTitle>
-                {renderInfo(
-                  <SectionItemValue>{weather.windSpeed}</SectionItemValue>
-                )}
+                <SectionItemTitle theme={theme}>Vento</SectionItemTitle>
+                <SectionItemValue theme={theme}>
+                  {renderInfo(weather.windSpeed)}
+                </SectionItemValue>
               </SectionItem>
             </Section>
           </CentralizedContent>
         </ContentContainer>
-        {/* <BottomCard /> */}
+        <BottomCard theme={theme} />
       </>
     </Screen>
   );
