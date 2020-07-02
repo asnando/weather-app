@@ -1,8 +1,9 @@
 import React, {useState, useEffect} from 'react';
+import {useSelector} from 'react-redux';
 import {View} from 'react-native';
 import {Screen} from '../components/Screen';
 import {
-  ActivityIndicator,
+  // ActivityIndicator,
   PlaceholderText,
   CentralizedContent,
   ContentContainer,
@@ -20,12 +21,15 @@ import {
 import {getCurrentWeatherByCoordinates} from '../repository/weather';
 
 const HomeScreen = () => {
+  const lastUserGeolocation = useSelector((state) => state.lastUserGeolocation);
   const [isLoading, setLoadingStatus] = useState(true);
   const [weather, setWeather] = useState({});
 
+  console.warn(lastUserGeolocation);
+
   useEffect(() => {
-    // TODO: Get coords from redux here
-    getCurrentWeatherByCoordinates(0, 0)
+    const {latitude, longitude} = lastUserGeolocation;
+    getCurrentWeatherByCoordinates(latitude, longitude)
       .then((weatherData) => {
         console.log(weatherData);
         setWeather(weatherData);
@@ -49,8 +53,8 @@ const HomeScreen = () => {
               <DescriptionText>{weather.description}</DescriptionText>
             )}
             <Section>
-              <View>
-                {renderInfo(<BigTitleText>{weather.city}</BigTitleText>)}
+              <View style={{flex: 1}}>
+                {renderInfo(<BigTitleText numberOfLines={2}>{weather.city}</BigTitleText>)}
                 {renderInfo(<BigTitleText>{weather.temperature}</BigTitleText>)}
               </View>
               <WeatherIconContainer>

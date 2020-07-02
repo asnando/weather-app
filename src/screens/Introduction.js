@@ -1,4 +1,5 @@
 import React from 'react';
+import {useDispatch} from 'react-redux';
 import Geolocation from '@react-native-community/geolocation';
 import {
   WelcomeText,
@@ -6,9 +7,13 @@ import {
   PermissionButtonText,
 } from './Introduction.styles';
 import {CentralizedContentScreen} from '../components/Screen';
+import {saveUserCoords} from '../state/Actions';
 
 const IntroductionScreen = ({navigation}) => {
+  const dispatch = useDispatch();
+
   async function onGeolocationGrant({coords: {latitude, longitude}}) {
+    dispatch(saveUserCoords(latitude, longitude));
     navigation.navigate('Home');
   }
 
