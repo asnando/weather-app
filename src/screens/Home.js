@@ -17,6 +17,8 @@ import {
   SectionItem,
   SectionItemTitle,
   SectionItemValue,
+  UpdateDataButton,
+  UpdateDataButtonText,
 } from './Home.styles';
 import {getCurrentWeatherByCoordinates} from '../repository/weather';
 import themeContext from '../theme';
@@ -26,6 +28,8 @@ const HomeScreen = () => {
   const lastUserGeolocation = useSelector((state) => state.lastUserGeolocation);
   const [isLoading, setLoadingStatus] = useState(true);
   const [weather, setWeather] = useState({});
+
+  const updateWeatherData = () => alert('not implemented');
 
   useEffect(() => {
     const {latitude, longitude} = lastUserGeolocation;
@@ -39,7 +43,6 @@ const HomeScreen = () => {
   }, []);
 
   const renderComponent = (component) => !isLoading && component;
-
   const renderInfo = (value) => (isLoading ? '-' : value || '');
 
   return (
@@ -96,7 +99,12 @@ const HomeScreen = () => {
             </Section>
           </CentralizedContent>
         </ContentContainer>
-        <BottomCard theme={theme} />
+        <UpdateDataButton theme={theme}>
+          <UpdateDataButtonText theme={theme} onPress={updateWeatherData}>
+            Atualizar previsão
+          </UpdateDataButtonText>
+        </UpdateDataButton>
+        {/* <BottomCard theme={theme} /> */}
       </>
     </Screen>
   );

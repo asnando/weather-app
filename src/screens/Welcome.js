@@ -62,11 +62,11 @@ const WelcomeScreen = ({navigation}) => {
       case USER_LOCATION_PERMISSION_UNKNOWN:
         return 'Precisamos ter acesso a sua localização para exibir o clima.';
       case USER_LOCATION_PERMISSION_DENIED:
-        return `):
-Parece que você não permitiu o acesso à sua localização.
-Por favor, habilite o acesso a sua localização nas configurações do aparelho.`;
+        return `Parece que você não permitiu o acesso à sua localização.
+Por favor, habilite este acesso nas configurações do aparelho.`;
+      case USER_LOCATION_PERMISSION_GRANT:
       default:
-        return '';
+        return 'Redirecionando…';
     }
   };
 
@@ -76,8 +76,9 @@ Por favor, habilite o acesso a sua localização nas configurações do aparelho
         return 'Permitir acesso';
       case USER_LOCATION_PERMISSION_DENIED:
         return 'Entendi, tentar novamente';
+      case USER_LOCATION_PERMISSION_GRANT:
       default:
-        return '';
+        return 'Próximo';
     }
   };
 
@@ -85,7 +86,9 @@ Por favor, habilite o acesso a sua localização nas configurações do aparelho
     <CentralizedContentScreen>
       <WelcomeText theme={theme}>{renderWelcomeText()}</WelcomeText>
       <PermissionButton onPress={requestUserGeolocation}>
-        <PermissionButtonText>{renderWelcomeButtonText()}</PermissionButtonText>
+        <PermissionButtonText theme={theme}>
+          {renderWelcomeButtonText()}
+        </PermissionButtonText>
       </PermissionButton>
     </CentralizedContentScreen>
   );

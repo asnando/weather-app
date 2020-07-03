@@ -83,3 +83,18 @@ export const BottomCard = styled.View`
   border-bottom-left-radius: 32;
   background-color: ${({theme: {primaryColor}}) => darken(0.15, primaryColor)};
 `;
+
+export const UpdateDataButton = styled.TouchableOpacity`
+  width: 80%;
+  height: 64;
+  border-radius: 4;
+  margin: auto;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const UpdateDataButtonText = styled.Text`
+  font-size: 18;
+  font-weight: bold;
+  color: ${({theme: {textColor}}) => textColor};
+`;

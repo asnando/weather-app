@@ -5,9 +5,13 @@ import {
 } from './Screen.styles';
 import themeContext from '../theme';
 
-export const CentralizedContentScreen = () => {
+export const CentralizedContentScreen = ({ children }) => {
   const {theme} = useContext(themeContext);
-  return <CentralizedContentScreenContainer theme={theme} />;
+  return (
+    <CentralizedContentScreenContainer theme={theme}>
+      {children}
+    </CentralizedContentScreenContainer>
+  );
 };
 
 export const Screen = ({children}) => {
