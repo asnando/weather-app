@@ -111,7 +111,7 @@ const HomeScreen = () => {
           disabled={isLoading}
           onPress={updateWeatherData}>
           <UpdateDataButtonText theme={theme} disabled={isLoading}>
-            Atualizar previsão
+            {isLoading ? 'Carregando' : 'Atualizar previsão'}
           </UpdateDataButtonText>
         </UpdateDataButton>
         {/* <BottomCard theme={theme} /> */}
