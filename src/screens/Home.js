@@ -69,7 +69,10 @@ const HomeScreen = () => {
   // Previne que os usuários de android voltem para a tela de
   // boas-vindas utilizndo o back button do aparelho.
   const preventUserNavigateBack = () => {
-    const onBackAction = () => true;
+    const onBackAction = () => {
+      BackHandler.exitApp();
+      return true;
+    };
     const backHandler = BackHandler.addEventListener(
       'hardwareBackPress',
       onBackAction,
