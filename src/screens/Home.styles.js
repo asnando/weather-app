@@ -36,6 +36,7 @@ export const BigTitleText = styled.Text`
 export const DescriptionText = styled.Text`
   font-size: 24;
   margin-top: 16;
+  margin-bottom: 24;
   font-weight: bold;
   color: ${({theme: {strongTextColor}}) => strongTextColor};
 `;
@@ -85,12 +86,13 @@ export const BottomCard = styled.View`
 `;
 
 export const UpdateDataButton = styled.TouchableOpacity`
-  width: 80%;
+  width: 90%;
   height: 64;
   border-radius: 4;
   margin: auto;
   align-items: center;
   justify-content: center;
+  background-color: ${({theme: {primaryColor}}) => lighten(0.025, primaryColor)};
 `;
 
 export const UpdateDataButtonText = styled.Text`

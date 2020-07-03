@@ -42,11 +42,14 @@ const WelcomeScreen = ({navigation}) => {
     }
   }
 
-  // useEffect(() => {
-  //   if (userLocationPermissionStatus === USER_LOCATION_PERMISSION_GRANT) {
-  //     goToNextPage();
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (userLocationPermissionStatus === USER_LOCATION_PERMISSION_GRANT) {
+      // Como a tela de apresentação possui uma animação,
+      // aguarde ao menos 2s para apresenta-lá ao usuário,
+      // mesmo que o mesmo já tenha dado permissão ao app anteriormente.
+      setTimeout(goToNextPage, 2000);
+    }
+  }, []);
 
   const requestUserGeolocation = () => {
     Geolocation.setRNConfiguration({
@@ -79,7 +82,7 @@ Por favor, habilite este acesso nas configurações do aparelho.`;
         return 'Entendi, tentar novamente';
       case USER_LOCATION_PERMISSION_GRANT:
       default:
-        return 'Próximo';
+        return '';
     }
   };
 

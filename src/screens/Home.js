@@ -105,8 +105,11 @@ const HomeScreen = () => {
             </Section>
           </CentralizedContent>
         </ContentContainer>
-        <UpdateDataButton theme={theme} disabled={isLoading}>
-          <UpdateDataButtonText theme={theme} disabled={isLoading} onPress={updateWeatherData}>
+        <UpdateDataButton
+          theme={theme}
+          disabled={isLoading}
+          onPress={updateWeatherData}>
+          <UpdateDataButtonText theme={theme} disabled={isLoading}>
             Atualizar previsão
           </UpdateDataButtonText>
         </UpdateDataButton>
