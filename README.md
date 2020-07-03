@@ -62,13 +62,17 @@ npm run ios
 Pode ser buildado um release - que não depende do servidor web para obter o bundle - através do comando:
 
 ```bash
-cd weather-app/android && ./gradlew assembleRelease
+cd weather-app
+
+react-native bundle --dev false --platform android --entry-file index.js --bundle-output ./android/app/src/main/assets/index.android.bundle --assets-dest ./android/app/src/main/res
+
+cd android && ./gradlew assembleRelease
 ```
 
 O arquivo será gerado em `android/app/build/outputs/apk/release/app-release.apk`.
 
 ## Build iOS
-Para build e assinatura do app, deve-se usar o Xcode.
+Para build do app deve-se usar o Xcode.
 
 ## 
 Desenvolvido por [Fernando Rama](https://github.com/ffrm).
