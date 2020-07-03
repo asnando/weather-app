@@ -2,7 +2,9 @@ import styled from 'styled-components/native';
 
 export const WelcomeText = styled.Text`
   width: 80%;
-  font-size: 24;
+  margin-top: 16;
+  margin-bottom: 16;
+  font-size: 20;
   color: ${({theme: {textColor}}) => textColor};
 `;
 
@@ -15,6 +17,7 @@ export const PermissionButton = styled.TouchableOpacity`
 `;
 
 export const PermissionButtonText = styled.Text`
-  font-size: 18;
-  color: ${({theme: {textColor}}) => textColor};
+  font-size: 24;
+  font-weight: bold;
+  color: ${({theme: {strongTextColor}}) => strongTextColor};
 `;

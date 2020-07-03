@@ -1,6 +1,7 @@
 import React, {useEffect, useContext} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import Geolocation from '@react-native-community/geolocation';
+import LottieView from 'lottie-react-native';
 import {
   WelcomeText,
   PermissionButton,
@@ -41,11 +42,11 @@ const WelcomeScreen = ({navigation}) => {
     }
   }
 
-  useEffect(() => {
-    if (userLocationPermissionStatus === USER_LOCATION_PERMISSION_GRANT) {
-      goToNextPage();
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (userLocationPermissionStatus === USER_LOCATION_PERMISSION_GRANT) {
+  //     goToNextPage();
+  //   }
+  // }, []);
 
   const requestUserGeolocation = () => {
     Geolocation.setRNConfiguration({
@@ -84,6 +85,12 @@ Por favor, habilite este acesso nas configurações do aparelho.`;
 
   return (
     <CentralizedContentScreen>
+      <LottieView
+        source={require('../lotties/animation.json')}
+        autoPlay
+        loop
+        autoSize
+      />
       <WelcomeText theme={theme}>{renderWelcomeText()}</WelcomeText>
       <PermissionButton onPress={requestUserGeolocation}>
         <PermissionButtonText theme={theme}>
