@@ -68,7 +68,7 @@ const WelcomeScreen = ({navigation}) => {
   const renderWelcomeText = () => {
     switch (userLocationPermissionStatus) {
       case USER_LOCATION_PERMISSION_UNKNOWN:
-        return 'Precisamos ter acesso a sua localização para exibir o clima.';
+        return 'Precisamos ter acesso a sua localização para exibir as informações de clima.';
       case USER_LOCATION_PERMISSION_DENIED:
         return `Parece que você não permitiu o acesso à sua localização.
 Por favor, habilite este acesso nas configurações do aparelho.`;

@@ -1,8 +1,6 @@
 import styled from 'styled-components/native';
 import {lighten, darken} from 'polished';
 
-export const ActivityIndicator = styled.ActivityIndicator``;
-
 export const PlaceholderText = styled.Text`
   font-size: 16;
   margin-top: 16;
@@ -56,7 +54,7 @@ export const Section = styled.View`
   align-items: center;
   flex-direction: row;
   margin-top: 16;
-  margin-bottom: 24;
+  margin-bottom: 16;
 `;
 
 export const SectionItem = styled.View`
@@ -74,30 +72,63 @@ export const SectionItemValue = styled.Text`
   color: ${({theme: {textColor}}) => textColor};
 `;
 
-export const BottomCard = styled.View`
-  bottom: 0;
-  width: 100%;
-  height: 55%;
-  border-top-right-radius: 32;
-  border-top-left-radius: 32;
-  border-bottom-right-radius: 32;
-  border-bottom-left-radius: 32;
-  background-color: ${({theme: {primaryColor}}) => darken(0.15, primaryColor)};
-`;
 
-export const UpdateDataButton = styled.TouchableOpacity`
+export const RefreshButton = styled.TouchableOpacity`
   width: 90%;
   height: 64;
   border-radius: 4;
   margin: auto;
+  margin-top: 16;
   align-items: center;
   justify-content: center;
   background-color: ${({theme: {primaryColor}}) => lighten(0.025, primaryColor)};
 `;
 
-export const UpdateDataButtonText = styled.Text`
+export const RefreshButtonText = styled.Text`
   font-size: 18;
   font-weight: bold;
   color: ${({disabled, theme: {textColor, disabledTextColor}}) =>
     disabled ? disabledTextColor : textColor};
+`;
+
+export const ForecastContainer = styled.View`
+  margin-top: 32;
+`;
+
+export const Forecast = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
+  padding-top: 16;
+  padding-bottom: 16;
+`;
+
+export const ForecastTitle = styled.Text`
+  font-weight: bold;
+  font-size: 18;
+  color: ${({theme: {strongTextColor}}) => strongTextColor};
+  flex: 4;
+`;
+
+export const ForecastMax = styled.Text`
+  font-size: 16;
+  flex: 1;
+  color: ${({theme: {strongTextColor}}) => strongTextColor};
+`;
+
+export const ForecastMin = styled.Text`
+  font-size: 16;
+  flex: 1;
+  color: ${({theme: {softTextColor}}) => softTextColor};
+`;
+
+export const ForecastIcon = styled.View`
+  width: 32;
+  height: 32;
+  margin-right: 16;
+`;
+
+export const ForecastIconImage = styled.Image`
+  flex: 1;
 `;

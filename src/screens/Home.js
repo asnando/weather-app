@@ -1,10 +1,8 @@
 import React, {useState, useEffect, useContext} from 'react';
 import {useSelector} from 'react-redux';
-import {View} from 'react-native';
+import {View, ActivityIndicator} from 'react-native';
 import {Screen} from '../components/Screen';
 import {
-  // ActivityIndicator,
-  PlaceholderText,
   CentralizedContent,
   ContentContainer,
   HeaderTitleText,
@@ -13,14 +11,23 @@ import {
   WeatherIconContainer,
   WeatherIconImage,
   Section,
-  BottomCard,
   SectionItem,
   SectionItemTitle,
   SectionItemValue,
-  UpdateDataButton,
-  UpdateDataButtonText,
+  RefreshButton,
+  RefreshButtonText,
+  ForecastContainer,
+  Forecast,
+  ForecastTitle,
+  ForecastMax,
+  ForecastMin,
+  ForecastIcon,
+  ForecastIconImage,
 } from './Home.styles';
-import {getCurrentWeatherByCoordinates} from '../repository/weather';
+import {
+  getCurrentWeatherByCoordinates,
+  getWeatherForecast,
+} from '../repository/weather';
 import themeContext from '../theme';
 import {Weather} from '../repository/type/weather';
 
@@ -28,7 +35,11 @@ const HomeScreen = () => {
   const {theme} = useContext(themeContext);
   const lastUserGeolocation = useSelector((state) => state.lastUserGeolocation);
   const [isLoading, setLoadingStatus] = useState(true);
+  // Temos dois status de carregamento pois a previsão dos próximos dias
+  //  é um dado secundário e o clima atual independente desta informação.
+  const [isLoadingForecast, setLoadingForecastStatus] = useState(true);
   const [weather, setWeather] = useState(new Weather());
+  const [forecast, setForecast] = useState([]);
 
   const updateWeather = () => {
     const {latitude, longitude} = lastUserGeolocation;
@@ -37,20 +48,65 @@ const HomeScreen = () => {
         setWeather(weatherData);
         setLoadingStatus(false);
       })
-      .catch(console.error);
+      .catch(console.log);
+  };
+
+  const updateWeatherForeacast = () => {
+    setLoadingForecastStatus(true);
+    const {latitude, longitude} = lastUserGeolocation;
+    getWeatherForecast(latitude, longitude)
+      .then(setForecast)
+      .then(() => setLoadingForecastStatus(false))
+      .catch(console.log);
   };
 
   const updateWeatherData = () => {
     setLoadingStatus(true);
     updateWeather();
+    updateWeatherForeacast();
   };
 
   useEffect(() => {
-    updateWeather();
+    updateWeatherData();
   }, []);
 
   const renderComponent = (component) => !isLoading && component;
   const renderInfo = (value) => (isLoading ? '-' : value || '');
+
+  const renderForecast = () =>
+    isLoadingForecast ? (
+      <ActivityIndicator size="large" color={theme.strongTextColor} />
+    ) : (
+      <ForecastContainer>
+        {forecast.map((weatherForecast) => (
+          <Forecast>
+            <ForecastTitle theme={theme}>
+              {weatherForecast.getDate()}
+            </ForecastTitle>
+            <ForecastIcon>
+              <ForecastIconImage source={{uri: weatherForecast.getIcon()}} />
+            </ForecastIcon>
+            <ForecastMax theme={theme}>
+              {weatherForecast.getMinTemperature()}
+            </ForecastMax>
+            <ForecastMin theme={theme}>
+              {weatherForecast.getMaxTemperature()}
+            </ForecastMin>
+          </Forecast>
+        ))}
+      </ForecastContainer>
+    );
+
+    const renderRefreshButton = () => (
+      <RefreshButton
+        theme={theme}
+        disabled={isLoading}
+        onPress={updateWeatherData}>
+        <RefreshButtonText theme={theme} disabled={isLoading}>
+          {isLoading ? 'Carregando' : 'Atualizar'}
+        </RefreshButtonText>
+      </RefreshButton>
+    );
 
   return (
     <Screen>
@@ -104,17 +160,10 @@ const HomeScreen = () => {
                 </SectionItemValue>
               </SectionItem>
             </Section>
+            {renderForecast()}
+            {renderRefreshButton()}
           </CentralizedContent>
         </ContentContainer>
-        <UpdateDataButton
-          theme={theme}
-          disabled={isLoading}
-          onPress={updateWeatherData}>
-          <UpdateDataButtonText theme={theme} disabled={isLoading}>
-            {isLoading ? 'Carregando' : 'Atualizar previsão'}
-          </UpdateDataButtonText>
-        </UpdateDataButton>
-        {/* <BottomCard theme={theme} /> */}
       </>
     </Screen>
   );
