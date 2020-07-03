@@ -6,11 +6,17 @@ import {
   OPENWEATHER_ICON_BASE_URL,
   OPENWEATHER_LANG,
   OPENWEATHER_UNITS_TYPE,
+  MOMENTJS_LANG,
 } from '../constants';
+import {WeatherBuilder} from './type/weather';
 import {encodeUrlWithParams} from '../utils/url';
+import {toCelsius, toPercent, toSpeed} from '../utils/conversion';
+import {replaceVarInString, capitalize} from '../utils/string';
 
+// Transforma a resposta da Openweather API para um objeto
+// do tipo Weather, para ser mais facilmente manipulado
+// pelos componentes que exibem suas informações.
 function parseWeatherResponseToWeatherObject(response) {
-  console.log(response);
   const {
     name: city,
     dt: dateTimestamp,
@@ -23,40 +29,33 @@ function parseWeatherResponseToWeatherObject(response) {
     weather,
     wind,
   } = response;
+
   const [weatherMatch] = weather;
   const {description, icon: weatherIcon} = weatherMatch;
   const {speed: windSpeed} = wind;
-  const weatherIconUrl = OPENWEATHER_ICON_BASE_URL.replace(/\$iconName/i, weatherIcon);
-  moment.locale('pt-br');
+
+  // atualiza momentjs para tratar data como portguês Brasil
+  moment.locale(MOMENTJS_LANG);
+
   const date = moment(dateTimestamp);
 
-  const toCelsius = (temp) => {
-    // eslint-disable-next-line radix
-    temp = parseInt(temp);
-    if (temp > 0) {
-      return `+${temp}º`;
-    }
-    if (temp < 0) {
-      return `-${temp}º`;
-    }
-    return `${temp}º`;
-  };
-
-  return {
-    city,
-    // dateAsString: `${date.getDay()}`,
-    dateAsString: date.format('dddd, D').replace(/(^\w)|(-\w)/gi, (match) => match.toUpperCase()),
-    description: description.replace(/(^\w)|\s(\w)/gi, (match) =>
-      match.toUpperCase(),
-    ),
-    humidity: `${humidity}%`,
-    temperature: toCelsius(temperature),
-    maxTemperature: toCelsius(maxTemperature),
-    minTemperature: toCelsius(minTemperature),
-    // eslint-disable-next-line radix
-    windSpeed: `${parseInt(windSpeed)} m/s`,
-    icon: weatherIconUrl,
-  };
+  // Como não está sendo utilizado typescript e para garantir uma melhor
+  // interface entre o tipo de dado e a apresentação, criei uma classe com
+  // seu respectivo builder para facilitar a apresentação das propriedades
+  // dentro dos components que recebem este objeto(Weather).
+  return new WeatherBuilder()
+    .city(city)
+    .date(capitalize(date.format('dddd, D')))
+    .description(capitalize(description))
+    .humidity(toPercent(humidity))
+    .temperature(toCelsius(temperature))
+    .maxTemperature(toCelsius(maxTemperature))
+    .minTemperature(toCelsius(minTemperature))
+    .windSpeed(toSpeed(windSpeed))
+    .icon(
+      replaceVarInString(OPENWEATHER_ICON_BASE_URL, 'iconName', weatherIcon),
+    )
+    .build();
 }
 
 export async function getCurrentWeatherByCoordinates(lat = 0, lon = 0) {

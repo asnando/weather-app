@@ -17,7 +17,10 @@ const App = () => {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <StatusBar barStyle={`${theme.appStatusBarStyle}-content`} />
+        <StatusBar
+          barStyle={`${theme.appStatusBarStyle}-content`}
+          backgroundColor={theme.primaryColor}
+        />
         <NavigationContainer>
           <Stack.Navigator
             headerMode="none"

@@ -22,12 +22,13 @@ import {
 } from './Home.styles';
 import {getCurrentWeatherByCoordinates} from '../repository/weather';
 import themeContext from '../theme';
+import {Weather} from '../repository/type/weather';
 
 const HomeScreen = () => {
   const {theme} = useContext(themeContext);
   const lastUserGeolocation = useSelector((state) => state.lastUserGeolocation);
   const [isLoading, setLoadingStatus] = useState(true);
-  const [weather, setWeather] = useState({});
+  const [weather, setWeather] = useState(new Weather());
 
   const updateWeather = () => {
     const {latitude, longitude} = lastUserGeolocation;
@@ -57,23 +58,23 @@ const HomeScreen = () => {
         <ContentContainer>
           <CentralizedContent>
             <HeaderTitleText theme={theme}>
-              {renderInfo(weather.dateAsString)}
+              {renderInfo(weather.getDate())}
             </HeaderTitleText>
             <DescriptionText theme={theme}>
-              {renderInfo(weather.description)}
+              {renderInfo(weather.getDescription())}
             </DescriptionText>
             <Section>
               <View style={{flex: 1}}>
                 <BigTitleText numberOfLines={2} theme={theme}>
-                  {renderInfo(weather.city)}
+                  {renderInfo(weather.getCity())}
                 </BigTitleText>
                 <BigTitleText theme={theme}>
-                  {renderInfo(weather.temperature)}
+                  {renderInfo(weather.getTemperature())}
                 </BigTitleText>
               </View>
               <WeatherIconContainer>
                 {renderComponent(
-                  <WeatherIconImage source={{uri: weather.icon}} />,
+                  <WeatherIconImage source={{uri: weather.getIcon()}} />,
                 )}
               </WeatherIconContainer>
             </Section>
@@ -81,25 +82,25 @@ const HomeScreen = () => {
               <SectionItem>
                 <SectionItemTitle theme={theme}>Min</SectionItemTitle>
                 <SectionItemValue theme={theme}>
-                  {renderInfo(weather.minTemperature)}
+                  {renderInfo(weather.getMinTemperature())}
                 </SectionItemValue>
               </SectionItem>
               <SectionItem>
                 <SectionItemTitle theme={theme}>Max</SectionItemTitle>
                 <SectionItemValue theme={theme}>
-                  {renderInfo(weather.maxTemperature)}
+                  {renderInfo(weather.getMaxTemperature())}
                 </SectionItemValue>
               </SectionItem>
               <SectionItem>
                 <SectionItemTitle theme={theme}>Umidade</SectionItemTitle>
                 <SectionItemValue theme={theme}>
-                  {renderInfo(weather.humidity)}
+                  {renderInfo(weather.getHumidity())}
                 </SectionItemValue>
               </SectionItem>
               <SectionItem>
                 <SectionItemTitle theme={theme}>Vento</SectionItemTitle>
                 <SectionItemValue theme={theme}>
-                  {renderInfo(weather.windSpeed)}
+                  {renderInfo(weather.getWindSpeed())}
                 </SectionItemValue>
               </SectionItem>
             </Section>
