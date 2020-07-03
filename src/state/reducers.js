@@ -1,10 +1,10 @@
 import {
-  SAVE_USER_COORDS_ACTION_TYPE,
+  SAVE_USER_LOCATION_ACTION_TYPE,
   SET_USER_LOCATION_PERMISSION_STATUS,
 } from './actions';
 
 const INITIAL_STATE = {
-  lastUserGeolocation: {
+  lastUserLocation: {
     latitude: null,
     longitude: null,
   },
@@ -13,10 +13,10 @@ const INITIAL_STATE = {
 
 const reducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case SAVE_USER_COORDS_ACTION_TYPE:
+    case SAVE_USER_LOCATION_ACTION_TYPE:
       return {
         ...state,
-        lastUserGeolocation: action.payload,
+        lastUserLocation: action.payload,
       };
     case SET_USER_LOCATION_PERMISSION_STATUS:
       return {

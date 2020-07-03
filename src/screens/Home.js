@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useContext} from 'react';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import {View, ActivityIndicator, BackHandler} from 'react-native';
 import {Screen} from '../components/Screen';
 import {
@@ -30,10 +30,12 @@ import {
 } from '../repository/weather';
 import themeContext from '../theme';
 import {Weather} from '../repository/type/weather';
+import {refreshUserLocation} from '../userLocation';
 
-const HomeScreen = () => {
+const HomeScreen = ({navigation}) => {
   const {theme} = useContext(themeContext);
-  const lastUserGeolocation = useSelector((state) => state.lastUserGeolocation);
+  const lastUserLocation = useSelector((state) => state.lastUserLocation);
+  const [failed, setFailed] = useState(null);
   const [isLoading, setLoadingStatus] = useState(true);
   // Temos dois status de carregamento pois a previsão dos próximos dias
   //  é um dado secundário e o clima atual é independente desta informação.
@@ -41,29 +43,10 @@ const HomeScreen = () => {
   const [weather, setWeather] = useState(new Weather());
   const [forecast, setForecast] = useState([]);
 
-  const updateWeather = () => {
-    const {latitude, longitude} = lastUserGeolocation;
-    getCurrentWeatherByCoordinates(latitude, longitude)
-      .then((weatherData) => {
-        setWeather(weatherData);
-        setLoadingStatus(false);
-      })
-      .catch(console.log);
-  };
+  const dispatch = useDispatch();
 
-  const updateWeatherForeacast = () => {
-    setLoadingForecastStatus(true);
-    const {latitude, longitude} = lastUserGeolocation;
-    getWeatherForecast(latitude, longitude)
-      .then(setForecast)
-      .then(() => setLoadingForecastStatus(false))
-      .catch(console.log);
-  };
-
-  const refresh = () => {
-    setLoadingStatus(true);
-    updateWeather();
-    updateWeatherForeacast();
+  const getUserLocationCoords = () => {
+    return lastUserLocation;
   };
 
   // Previne que os usuários de android voltem para a tela de
@@ -80,13 +63,56 @@ const HomeScreen = () => {
     return () => backHandler.remove();
   };
 
+  const onDataError = (error) => {
+    console.log(error);
+    setFailed(true);
+    setLoadingStatus(false);
+    setLoadingForecastStatus(false);
+  };
+
+  const updateWeather = () => {
+    const {latitude, longitude} = getUserLocationCoords();
+    getCurrentWeatherByCoordinates(latitude, longitude)
+      .then((weatherData) => {
+        setWeather(weatherData);
+        setLoadingStatus(false);
+      })
+      .catch(onDataError);
+  };
+
+  const updateWeatherForecast = () => {
+    setLoadingForecastStatus(true);
+    const {latitude, longitude} = getUserLocationCoords();
+    getWeatherForecast(latitude, longitude)
+      .then(setForecast)
+      .then(() => setLoadingForecastStatus(false))
+      .catch(console.log);
+  };
+
+  // Função chamada pelo botão de atualizar informações da tela.
+  // Verifica permissões e coordenadas da localização do usuário
+  // e atualização das mesmas.
+  const refresh = () => {
+    setLoadingStatus(true);
+    refreshUserLocation(dispatch);
+  };
+
+  // Adiciona handler para bloquear volta de tela por botão físico
+  // para os usuários de android, e carrega informações iniciais na tela.
   useEffect(() => {
     preventUserNavigateBack();
     refresh();
   }, []);
 
+  // Usuário clica "Atualizar" -> Permissões e coordenadas da localização são
+  // atualizadas na store do redux -> recarrega as informações de clima e previsão.
+  useEffect(() => {
+    updateWeather();
+    updateWeatherForecast();
+  }, [lastUserLocation]);
+
   const renderComponent = (component) => !isLoading && component;
-  const renderInfo = (value) => (isLoading ? '-' : value || '');
+  const renderInfo = (value) => (isLoading || failed ? '-' : value || '');
 
   const renderForecast = () =>
     isLoadingForecast ? (
@@ -112,19 +138,16 @@ const HomeScreen = () => {
       </ForecastContainer>
     );
 
-    const renderRefreshButton = () => {
-      const isLoadingData = isLoading || isLoadingForecast;
-      return (
-        <RefreshButton
-          theme={theme}
-          disabled={isLoadingData}
-          onPress={refresh}>
-          <RefreshButtonText theme={theme} disabled={isLoadingData}>
-            {isLoadingData ? 'Carregando' : 'Atualizar'}
-          </RefreshButtonText>
-        </RefreshButton>
-      )
-    };
+  const renderRefreshButton = () => {
+    const isLoadingData = isLoading || isLoadingForecast;
+    return (
+      <RefreshButton theme={theme} disabled={isLoadingData} onPress={refresh}>
+        <RefreshButtonText theme={theme} disabled={isLoadingData}>
+          {isLoadingData ? 'Carregando' : 'Atualizar'}
+        </RefreshButtonText>
+      </RefreshButton>
+    );
+  };
 
   return (
     <Screen>

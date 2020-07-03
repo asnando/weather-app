@@ -4,5 +4,5 @@ export const OPENWEATHER_LANG = 'pt_br';
 export const OPENWEATHER_UNITS_TYPE = 'metric';
 export const MOMENTJS_LANG = 'pt-br';
 export const USER_LOCATION_PERMISSION_UNKNOWN = 0;
-export const USER_LOCATION_PERMISSION_GRANT = 1;
+export const USER_LOCATION_PERMISSION_GRANTED = 1;
 export const USER_LOCATION_PERMISSION_DENIED = 2;
