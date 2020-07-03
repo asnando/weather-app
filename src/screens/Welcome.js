@@ -1,4 +1,6 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {useEffect, useContext} from 'react';
+import {ScrollView} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import Geolocation from '@react-native-community/geolocation';
 import LottieView from 'lottie-react-native';
@@ -6,10 +8,12 @@ import {
   WelcomeText,
   PermissionButton,
   PermissionButtonText,
-  NextPageButtonText,
 } from './Welcome.styles';
-import {CentralizedContentScreen} from '../components/Screen';
-import {setUserLocationPermissionStatus} from '../state/actions';
+import {Screen} from '../components/Screen';
+import {
+  saveUserCoords,
+  setUserLocationPermissionStatus,
+} from '../state/actions';
 import {
   USER_LOCATION_PERMISSION_UNKNOWN,
   USER_LOCATION_PERMISSION_DENIED,
@@ -28,7 +32,7 @@ const WelcomeScreen = ({navigation}) => {
   const goToNextPage = () => navigation.navigate('Home');
 
   async function onGeolocationGrant({coords: {latitude, longitude}}) {
-    // dispatch(saveUserCoords(latitude, longitude));
+    dispatch(saveUserCoords(latitude, longitude));
     dispatch(setUserLocationPermissionStatus(USER_LOCATION_PERMISSION_GRANT));
     goToNextPage();
   }
@@ -87,20 +91,28 @@ Por favor, habilite este acesso nas configurações do aparelho.`;
   };
 
   return (
-    <CentralizedContentScreen>
-      <LottieView
-        source={require('../lotties/animation.json')}
-        autoPlay
-        loop
-        autoSize
-      />
-      <WelcomeText theme={theme}>{renderWelcomeText()}</WelcomeText>
-      <PermissionButton onPress={requestUserGeolocation}>
-        <PermissionButtonText theme={theme}>
-          {renderWelcomeButtonText()}
-        </PermissionButtonText>
-      </PermissionButton>
-    </CentralizedContentScreen>
+    <Screen>
+      <ScrollView
+        contentContainerStyle={{
+          flex: 1,
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+        alwaysBounceVertical={false}>
+        <LottieView
+          source={require('../lotties/animation.json')}
+          autoPlay
+          loop
+          autoSize
+        />
+        <WelcomeText theme={theme}>{renderWelcomeText()}</WelcomeText>
+        <PermissionButton onPress={requestUserGeolocation}>
+          <PermissionButtonText theme={theme}>
+            {renderWelcomeButtonText()}
+          </PermissionButtonText>
+        </PermissionButton>
+      </ScrollView>
+    </Screen>
   );
 };
 
