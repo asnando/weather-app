@@ -102,10 +102,10 @@ const HomeScreen = () => {
               <ForecastIconImage source={{uri: weatherForecast.getIcon()}} />
             </ForecastIcon>
             <ForecastMax theme={theme}>
-              {weatherForecast.getMinTemperature()}
+              {weatherForecast.getMaxTemperature()}
             </ForecastMax>
             <ForecastMin theme={theme}>
-              {weatherForecast.getMaxTemperature()}
+              {weatherForecast.getMinTemperature()}
             </ForecastMin>
           </Forecast>
         ))}
