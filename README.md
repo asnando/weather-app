@@ -3,15 +3,10 @@ App climatempo desenvolvido como etapa do desafio técnico [Platform Builders]()
 
 ## Features
 - Desenvolvido com React Native com suporte à Android e iOS
-
 - Acesso a localização do usuário - latitude e longitude -, e exibe a cidade do mesmo
-
 - Busca de dados utilizando API OpenWeather
-
 - Previsão do tempo dentro dos próximos 5 dias
-
 - Informações extras como: velocidade do vento e umidade do ar
-
 - Botão de atualização das informações de clima
 
 ## Preview
@@ -43,6 +38,8 @@ cd weather-app && npm install
 ```
 
 ## Configuração
+Antes de executar a aplicação é necessário setar algumas variáveis de ambiente em arquivos `.env`:
+
 - `OPENWEATHER_APP_ID` <b>required</b> - App Id para acesso à OpenWeather API
 
 ## Executando

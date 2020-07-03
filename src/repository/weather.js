@@ -13,6 +13,12 @@ import {encodeUrlWithParams} from '../utils/url';
 import {toCelsius, toPercent, toSpeed} from '../utils/conversion';
 import {replaceVarInString, capitalize} from '../utils/string';
 
+if (!OPENWEATHER_APP_ID) {
+  throw new Error(
+    'Undefined OPENWEATHER_APP_ID env variable, please set a valid one before running app.',
+  );
+}
+
 // Transforma a resposta da Openweather API para um objeto
 // do tipo Weather, para ser mais facilmente manipulado
 // pelos componentes que exibem suas informações.
