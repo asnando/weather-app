@@ -36,7 +36,7 @@ const HomeScreen = () => {
   const lastUserGeolocation = useSelector((state) => state.lastUserGeolocation);
   const [isLoading, setLoadingStatus] = useState(true);
   // Temos dois status de carregamento pois a previsão dos próximos dias
-  //  é um dado secundário e o clima atual independente desta informação.
+  //  é um dado secundário e o clima atual é independente desta informação.
   const [isLoadingForecast, setLoadingForecastStatus] = useState(true);
   const [weather, setWeather] = useState(new Weather());
   const [forecast, setForecast] = useState([]);
@@ -60,7 +60,7 @@ const HomeScreen = () => {
       .catch(console.log);
   };
 
-  const updateWeatherData = () => {
+  const refresh = () => {
     setLoadingStatus(true);
     updateWeather();
     updateWeatherForeacast();
@@ -82,7 +82,7 @@ const HomeScreen = () => {
 
   useEffect(() => {
     preventUserNavigateBack();
-    updateWeatherData();
+    refresh();
   }, []);
 
   const renderComponent = (component) => !isLoading && component;
@@ -112,16 +112,19 @@ const HomeScreen = () => {
       </ForecastContainer>
     );
 
-    const renderRefreshButton = () => (
-      <RefreshButton
-        theme={theme}
-        disabled={isLoading}
-        onPress={updateWeatherData}>
-        <RefreshButtonText theme={theme} disabled={isLoading}>
-          {isLoading ? 'Carregando' : 'Atualizar'}
-        </RefreshButtonText>
-      </RefreshButton>
-    );
+    const renderRefreshButton = () => {
+      const isLoadingData = isLoading || isLoadingForecast;
+      return (
+        <RefreshButton
+          theme={theme}
+          disabled={isLoadingData}
+          onPress={refresh}>
+          <RefreshButtonText theme={theme} disabled={isLoadingData}>
+            {isLoadingData ? 'Carregando' : 'Atualizar'}
+          </RefreshButtonText>
+        </RefreshButton>
+      )
+    };
 
   return (
     <Screen>
