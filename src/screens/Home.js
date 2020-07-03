@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useContext} from 'react';
 import {useSelector} from 'react-redux';
-import {View, ActivityIndicator} from 'react-native';
+import {View, ActivityIndicator, BackHandler} from 'react-native';
 import {Screen} from '../components/Screen';
 import {
   CentralizedContent,
@@ -66,7 +66,19 @@ const HomeScreen = () => {
     updateWeatherForeacast();
   };
 
+  // Previne que os usuários de android voltem para a tela de
+  // boas-vindas utilizndo o back button do aparelho.
+  const preventUserNavigateBack = () => {
+    const onBackAction = () => true;
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      onBackAction,
+    );
+    return () => backHandler.remove();
+  };
+
   useEffect(() => {
+    preventUserNavigateBack();
     updateWeatherData();
   }, []);
 
