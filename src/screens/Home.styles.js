@@ -96,5 +96,6 @@ export const UpdateDataButton = styled.TouchableOpacity`
 export const UpdateDataButtonText = styled.Text`
   font-size: 18;
   font-weight: bold;
-  color: ${({theme: {textColor}}) => textColor};
+  color: ${({disabled, theme: {textColor, disabledTextColor}}) =>
+    disabled ? disabledTextColor : textColor};
 `;

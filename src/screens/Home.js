@@ -29,17 +29,23 @@ const HomeScreen = () => {
   const [isLoading, setLoadingStatus] = useState(true);
   const [weather, setWeather] = useState({});
 
-  const updateWeatherData = () => alert('not implemented');
-
-  useEffect(() => {
+  const updateWeather = () => {
     const {latitude, longitude} = lastUserGeolocation;
     getCurrentWeatherByCoordinates(latitude, longitude)
       .then((weatherData) => {
-        console.log(weatherData);
         setWeather(weatherData);
         setLoadingStatus(false);
       })
       .catch(console.error);
+  };
+
+  const updateWeatherData = () => {
+    setLoadingStatus(true);
+    updateWeather();
+  };
+
+  useEffect(() => {
+    updateWeather();
   }, []);
 
   const renderComponent = (component) => !isLoading && component;
@@ -99,8 +105,8 @@ const HomeScreen = () => {
             </Section>
           </CentralizedContent>
         </ContentContainer>
-        <UpdateDataButton theme={theme}>
-          <UpdateDataButtonText theme={theme} onPress={updateWeatherData}>
+        <UpdateDataButton theme={theme} disabled={isLoading}>
+          <UpdateDataButtonText theme={theme} disabled={isLoading} onPress={updateWeatherData}>
             Atualizar previsão
           </UpdateDataButtonText>
         </UpdateDataButton>
