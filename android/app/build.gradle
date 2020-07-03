@@ -79,6 +79,8 @@ import com.android.build.OutputFile
 
 project.ext.react = [
     enableHermes: false,  // clean and rebuild if changing
+    bundleInRelease: true,
+    resourcesDirRelease: "src/release/res",
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
@@ -194,7 +196,7 @@ dependencies {
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
 
-    implementation project(':lottie-react-native')
+    // implementation project(':lottie-react-native')
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
       exclude group:'com.facebook.fbjni'

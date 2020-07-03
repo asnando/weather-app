@@ -79,6 +79,8 @@ target 'WeatherApp' do
 
   pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-community/async-storage'
 
+  pod 'lottie-react-native', :path => '../node_modules/lottie-react-native'
+
   target 'WeatherAppTests' do
     inherit! :complete
     # Pods for testing
