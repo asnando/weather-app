@@ -1,5 +1,5 @@
 # ☀️ Weather App
-App climatempo desenvolvido como etapa do desafio técnico [Platform Builders]().
+App climatempo desenvolvido com React Native ☀️
 
 ## Features
 - Desenvolvido com React Native com suporte à Android e iOS
